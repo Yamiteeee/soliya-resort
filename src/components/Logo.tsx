@@ -1,20 +1,27 @@
 "use client";
 
 import React from 'react';
-import { useTheme } from '@/provider/themeprovider';
+import { useTheme } from '@/hooks/useThemeprovider';
 
 interface LogoProps {
   className?: string;
+  variant?: "light" | "dark";
 }
 
-export default function Logo({ className = '' }: LogoProps) {
+export default function Logo({ className = '', variant }: LogoProps) {
   const { colors } = useTheme();
+
+  // Determine colors cleanly based on explicit variant override or general theme
+  const isDarkBg = variant === "dark";
+  const svgColor = isDarkBg ? "text-zinc-100" : colors.text;
+  const wordmarkColor = isDarkBg ? "text-zinc-100" : colors.text;
+  const subtextColor = isDarkBg ? "text-zinc-400" : colors.muted;
 
   return (
     <div className={`flex items-center gap-3 select-none ${className}`}>
       {/* Abstract Geometric Wave/Sun Emblem */}
       <svg
-        className={`h-9 w-9 ${colors.text}`}
+        className={`h-9 w-9 transition-colors ${svgColor}`}
         viewBox="0 0 100 100"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -39,10 +46,10 @@ export default function Logo({ className = '' }: LogoProps) {
 
       {/* Brand Wordmark Typography */}
       <div className="flex flex-col tracking-widest uppercase">
-        <span className={`font-serif text-lg font-light ${colors.text}`}>
+        <span className={`font-serif text-lg font-light transition-colors ${wordmarkColor}`}>
           Soliya
         </span>
-        <span className={`font-sans text-[9px] tracking-[0.4em] font-medium -mt-1 ${colors.muted}`}>
+        <span className={`font-sans text-[9px] tracking-[0.4em] font-medium -mt-1 transition-colors ${subtextColor}`}>
           Siargao
         </span>
       </div>

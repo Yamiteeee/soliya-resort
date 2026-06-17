@@ -5,11 +5,12 @@ import HomepageLayout from "@/layouts/HomepageLayout";
 import Button from "@/components/Button";
 import Card from "@/components/Card";
 import Table from "@/components/Table";
-import { useTheme } from "@/provider/themeprovider";
+import ScrollSection from "@/components/animations/ScrollSection"; // Import your wrapper
+import { useTheme } from "@/hooks/useThemeprovider";
 import { soliyaImages } from "@/provider/imageProvider";
 
 export default function Home() {
-  const { colors, theme } = useTheme();
+  const { colors } = useTheme();
 
   const accommodationData = [
     {
@@ -35,35 +36,48 @@ export default function Home() {
     <HomepageLayout>
       
       {/* 1. HERO SECTION */}
-      <section className="relative flex h-screen w-full items-center justify-center overflow-hidden bg-stone-950">
-        <div className="absolute inset-0 z-0 opacity-70">
+      <section className={`relative flex h-screen w-full items-center justify-center overflow-hidden ${colors.bg} ${colors.textLight}`}>
+        <div className="absolute inset-0 z-0 opacity-40">
           <img 
             src={soliyaImages.hero.background} 
             alt={soliyaImages.hero.alt} 
             className="h-full w-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-stone-950/40 via-transparent to-stone-950/90" />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-current opacity-80" style={{ color: 'var(--tw-zinc-900)' }} />
         </div>
 
-        <div className="relative z-10 mx-auto max-w-4xl px-6 text-center text-stone-100">
-          <span className="text-xs font-medium uppercase tracking-[0.3em] text-stone-300 block mb-4">
+        {/* We wrap the content wrapper inside the hero so the background doesn't jump, only the text contents slide */}
+        <ScrollSection className="relative z-10 mx-auto max-w-4xl px-6 text-center">
+          <span className={`text-xs font-medium uppercase tracking-[0.3em] block mb-4 ${colors.mutedLight}`}>
             Boutique Luxury Surf Sanctuary
           </span>
-          <h1 className="font-serif text-5xl font-light tracking-wide text-stone-100 sm:text-7xl md:text-8xl mb-6">
+          <h1 className={`font-serif text-5xl font-light tracking-wide sm:text-7xl md:text-8xl mb-6 ${colors.textLight}`}>
             Where the Swell <br className="hidden sm:inline" /> Meets Soul
           </h1>
-          <p className="mx-auto max-w-xl font-sans text-sm md:text-base leading-relaxed text-stone-200/90 mb-10">
+          <p className={`mx-auto max-w-xl font-sans text-sm md:text-base leading-relaxed mb-10 ${colors.textLight} opacity-90`}>
             Discover a conscious eco-luxury retreat hidden safely along the pristine shores of Siargao. Tailored elegantly for sunset chasers, wave riders, and slow-living purists.
           </p>
+          
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a href="#villas"><Button variant="secondary">Explore Sanctuaries</Button></a>
-            <a href="#experience"><Button variant="outline">The Experience</Button></a>
+            <a href="#villas">
+              <Button variant="secondary" className="px-6 py-3 text-xs font-semibold uppercase tracking-wider">
+                Explore Sanctuaries
+              </Button>
+            </a>
+            <a href="#experience">
+              <Button 
+                variant="outline" 
+                className="px-6 py-3 text-xs font-semibold uppercase tracking-wider !border-current !text-current hover:opacity-80 transition-all duration-300"
+              >
+                The Experience
+              </Button>
+            </a>
           </div>
-        </div>
+        </ScrollSection>
       </section>
 
       {/* 2. THE EXPERIENCE BRAND BLOCK */}
-      <section id="experience" className="mx-auto max-w-7xl px-6 py-24 md:px-12 md:py-32">
+      <ScrollSection id="experience" className={`mx-auto max-w-7xl px-6 py-24 md:px-12 md:py-32 ${colors.contentBg}`}>
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-20">
           <div className="space-y-6">
             <span className={`text-xs font-semibold uppercase tracking-widest block ${colors.accent}`}>
@@ -87,10 +101,10 @@ export default function Home() {
             />
           </div>
         </div>
-      </section>
+      </ScrollSection>
 
       {/* 3. VILLA CARDS GRID SECTION */}
-      <section id="villas" className={`px-6 py-24 md:px-12 md:py-32 transition-colors duration-300 ${colors.surface}`}>
+      <ScrollSection id="villas" className={`px-6 py-24 md:px-12 md:py-32 transition-colors duration-300 ${colors.surface}`}>
         <div className="mx-auto max-w-7xl">
           <div className="text-center max-w-xl mx-auto mb-16">
             <span className={`text-xs font-semibold uppercase tracking-widest block mb-3 ${colors.accent}`}>
@@ -130,10 +144,10 @@ export default function Home() {
             <Table headers={tableHeaders} data={accommodationData} />
           </div>
         </div>
-      </section>
+      </ScrollSection>
 
       {/* 4. THE LIFESTYLE & DINING SECTION */}
-      <section id="lifestyle" className="mx-auto max-w-7xl px-6 py-24 md:px-12 md:py-32">
+      <ScrollSection id="lifestyle" className={`mx-auto max-w-7xl px-6 py-24 md:px-12 md:py-32 ${colors.contentBg}`}>
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-20">
           <div className="order-2 grid grid-cols-2 gap-4 lg:order-1">
             <div className={`overflow-hidden border h-64 md:h-80 ${colors.border}`}>
@@ -162,14 +176,12 @@ export default function Home() {
             <p className={`font-sans text-sm leading-relaxed ${colors.muted}`}>
               Soliya Kitchen takes major pride in working exclusively alongside local farmers and municipal fisherfolk. From sunrise smoothie breakfast bowls filled with freshly harvested mangos to beachside wood-fired evening dinners, experience authentic Filipino flavor profiles reimagined through a global minimalist dining lens.
             </p>
-            <div className={`border-l-2 pl-4 py-1 italic text-sm font-serif ${
-              theme === 'dark' ? 'border-emerald-500 text-stone-300' : 'border-emerald-900 text-stone-700'
-            }`}>
+            <div className={`border-l-2 pl-4 py-1 italic text-sm font-serif ${colors.accent} ${colors.text} opacity-90`}>
               "The evening acoustic programming perfectly blends down-tempo Phonk patterns and indie pinoy rock roots while you enjoy our hand-shaken native fruit elixirs."
             </div>
           </div>
         </div>
-      </section>
+      </ScrollSection>
 
     </HomepageLayout>
   );

@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { useTheme } from '@/provider/themeprovider';
+import { useTheme } from '@/hooks/useThemeprovider';
 
 interface CardProps {
   imageSrc: string;
@@ -24,9 +24,7 @@ export default function Card({ imageSrc, altText, title, description, tag }: Car
           loading="lazy"
         />
         {tag && (
-          <span className={`absolute top-4 left-4 text-[10px] uppercase tracking-widest px-3 py-1 font-medium ${
-            colors.accent === 'text-emerald-500' ? 'bg-emerald-500 text-stone-950' : 'bg-emerald-900 text-stone-100'
-          }`}>
+          <span className={`absolute top-4 left-4 text-[10px] uppercase tracking-widest px-3 py-1 font-medium ${colors.tagBg} ${colors.tagText}`}>
             {tag}
           </span>
         )}
