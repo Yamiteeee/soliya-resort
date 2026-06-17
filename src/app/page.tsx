@@ -5,7 +5,7 @@ import HomepageLayout from "@/layouts/HomepageLayout";
 import Button from "@/components/Button";
 import Card from "@/components/Card";
 import Table from "@/components/Table";
-import ScrollSection from "@/components/animations/ScrollSection"; // Import your wrapper
+import ScrollSection from "@/components/animations/ScrollSection"; 
 import { useTheme } from "@/hooks/useThemeprovider";
 import { soliyaImages } from "@/provider/imageProvider";
 
@@ -46,7 +46,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-current opacity-80" style={{ color: 'var(--tw-zinc-900)' }} />
         </div>
 
-        {/* We wrap the content wrapper inside the hero so the background doesn't jump, only the text contents slide */}
+        {/* Text and interaction content slides smoothly right-to-left */}
         <ScrollSection className="relative z-10 mx-auto max-w-4xl px-6 text-center">
           <span className={`text-xs font-medium uppercase tracking-[0.3em] block mb-4 ${colors.mutedLight}`}>
             Boutique Luxury Surf Sanctuary
@@ -149,15 +149,17 @@ export default function Home() {
       {/* 4. THE LIFESTYLE & DINING SECTION */}
       <ScrollSection id="lifestyle" className={`mx-auto max-w-7xl px-6 py-24 md:px-12 md:py-32 ${colors.contentBg}`}>
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-20">
+          
+          {/* Image Layout Stream */}
           <div className="order-2 grid grid-cols-2 gap-4 lg:order-1">
-            <div className={`overflow-hidden border h-64 md:h-80 ${colors.border}`}>
+            <div className={`overflow-hidden border h-64 md:h-80 ${colors.border} ${colors.surface}`}>
               <img 
                 src={soliyaImages.lifestyle.breakfastTable} 
                 alt="Aesthetic breakfast table setting with fresh food" 
                 className="h-full w-full object-cover"
               />
             </div>
-            <div className={`overflow-hidden border h-64 md:h-80 mt-8 ${colors.border}`}>
+            <div className={`overflow-hidden border h-64 md:h-80 mt-8 ${colors.border} ${colors.surface}`}>
               <img 
                 src={soliyaImages.lifestyle.smoothieBowl} 
                 alt="Fresh tropical food layout close up" 
@@ -166,6 +168,7 @@ export default function Home() {
             </div>
           </div>
 
+          {/* Text Description Stream */}
           <div className="space-y-6 order-1 lg:order-2">
             <span className={`text-xs font-semibold uppercase tracking-widest block ${colors.accent}`}>
               Culinary Art & Curated Rhythms
@@ -176,10 +179,13 @@ export default function Home() {
             <p className={`font-sans text-sm leading-relaxed ${colors.muted}`}>
               Soliya Kitchen takes major pride in working exclusively alongside local farmers and municipal fisherfolk. From sunrise smoothie breakfast bowls filled with freshly harvested mangos to beachside wood-fired evening dinners, experience authentic Filipino flavor profiles reimagined through a global minimalist dining lens.
             </p>
-            <div className={`border-l-2 pl-4 py-1 italic text-sm font-serif ${colors.accent} ${colors.text} opacity-90`}>
+            
+            {/* Cleaned luxury testimonial quote block */}
+            <div className={`border-l-2 pl-4 py-1 italic text-sm font-serif border-emerald-800/60 ${colors.text} opacity-90`}>
               "The evening acoustic programming perfectly blends down-tempo Phonk patterns and indie pinoy rock roots while you enjoy our hand-shaken native fruit elixirs."
             </div>
           </div>
+
         </div>
       </ScrollSection>
 

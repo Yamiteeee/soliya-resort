@@ -29,4 +29,11 @@ export const solidColors = {
   // 6. Global Text Selection Theme
   selectionBg: "selection:bg-zinc-800",
   selectionText: "selection:text-zinc-100",
+
+
+
+// 7. Interactive Input Themes
+  inputFocusRing: "focus-within:ring-1 focus-within:ring-emerald-800/40",
+  inputValueText: "text-zinc-800 font-medium",
+  
 } as const;
