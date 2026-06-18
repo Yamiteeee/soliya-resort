@@ -20,7 +20,7 @@ export default function Table({ headers, data, className = '' }: TableProps) {
 
   return (
     <div className={`w-full overflow-x-auto ${colors.selectionBg || "selection:bg-zinc-800"} ${colors.selectionText || "selection:text-zinc-100"} ${className}`}>
-      <table className={`w-full min-w-[700px] border-collapse text-left text-sm ${colors.text}`}>
+      <table className={`w-full min-w-700px border-collapse text-left text-sm ${colors.text}`}>
         
         {/* Header Block Using Clean Spacing (Borders Removed) */}
         <thead className={`text-[11px] uppercase tracking-[0.25em] font-bold ${colors.muted}`}>

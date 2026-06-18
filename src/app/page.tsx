@@ -117,7 +117,7 @@ export default function Home() {
                   At Soliya, we believe that pure, high-end luxury shouldn't compromise the earth. Tucked comfortably away from the bustling tourist strips yet just a brief walk away from the island's world-class breaks, our spaces perfectly blend modern architectural geometry with traditional Filipino craftsmanship.
                 </p>
               </div>
-              <div className={`h-[450px] w-full overflow-hidden ${colors.surface}`}>
+              <div className={`h-450px w-full overflow-hidden ${colors.surface}`}>
                 <img src={soliyaImages.experience.pool} alt={soliyaImages.experience.alt} className="h-full w-full object-cover hover:scale-105 transition-transform duration-700 ease-out" />
               </div>
             </div>
@@ -167,7 +167,7 @@ export default function Home() {
       {shouldRenderModal && (
         <div 
           onClick={handleModalClose}
-          className={`fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6 overflow-x-hidden overflow-y-auto bg-black/50 backdrop-blur-md transition-opacity duration-300 ease-in-out ${
+          className={`fixed inset-0 z-100 flex items-center justify-center p-4 md:p-6 overflow-x-hidden overflow-y-auto bg-black/50 backdrop-blur-md transition-opacity duration-300 ease-in-out ${
             animateIn ? "opacity-100" : "opacity-0"
           }`}
         >

@@ -23,7 +23,7 @@ export default function UniversalModal({
 
   const modalLayoutRoot = (
     <div
-      className="fixed inset-0 z-[99999] flex items-center justify-center bg-zinc-950/30 p-4 sm:p-6 backdrop-blur-md transition-all duration-300 animate-fadeIn"
+      className="fixed inset-0 z-99999 flex items-center justify-center bg-zinc-950/30 p-4 sm:p-6 backdrop-blur-md transition-all duration-300 animate-fadeIn"
       onClick={onClose}
     >
       <div

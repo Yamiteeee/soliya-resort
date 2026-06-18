@@ -24,7 +24,8 @@ export default function PageLoader() {
             y: "-100%",
             transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] } 
           }}
-          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-stone-950 text-stone-100"
+        
+          className="fixed inset-0 z-9999 flex flex-col items-center justify-center bg-stone-950 text-stone-100"
         >
           <div className="flex flex-col items-center max-w-xs text-center px-6">
             
@@ -74,7 +75,8 @@ export default function PageLoader() {
             </div>
 
             {/* 3. Minimal Progress Line Accent */}
-            <div className="w-24 h-[1px] bg-stone-800 mt-8 relative overflow-hidden">
+            {/* FIXED: Swapped out h-[1px] for the canonical h-px core utility */}
+            <div className="w-24 h-px bg-stone-800 mt-8 relative overflow-hidden">
               <motion.div 
                 initial={{ left: "-100%" }}
                 animate={{ left: "100%" }}

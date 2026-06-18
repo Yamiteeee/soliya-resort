@@ -73,7 +73,7 @@ export default function UniversalFormUI({
                     </option>
                   ))}
                 </select>
-                <div className={`absolute inset-y-0 right-0 flex items-center pr-1 pointer-events-none transition-transform duration-300 group-hover:translate-y-[1px] ${colors.muted}`}>
+                <div className={`absolute inset-y-0 right-0 flex items-center pr-1 pointer-events-none transition-transform duration-300 group-hover:translate-y-px ${colors.muted}`}>
                   <svg className="w-3.5 h-3.5 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 9l-7 7-7-7" />
                   </svg>
@@ -87,7 +87,7 @@ export default function UniversalFormUI({
                 <input
                   type={field.type}
                   className={`${baseInputClass} ${
-                    field.type === "date" ? "cursor-pointer [color-scheme:light] dark:[color-scheme:dark]" : ""
+                    field.type === "date" ? "cursor-pointer color-scheme:light dark:color-scheme:dark" : ""
                   }`}
                   placeholder={field.placeholder}
                   value={fieldValue}

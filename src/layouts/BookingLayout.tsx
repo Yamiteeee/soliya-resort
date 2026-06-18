@@ -75,7 +75,7 @@ export default function BookingLayout({
         </div>
 
         {/* MAIN BODY AREA */}
-        <div className="overflow-y-auto px-6 py-4 flex-1 min-h-[280px]">
+        <div className="overflow-y-auto px-6 py-4 flex-1 min-h-70vh">
           {success ? (
             <div className="text-center py-10 flex flex-col items-center justify-center h-full animate-fadeIn duration-200">
               <div className={`flex items-center justify-center h-12 w-12 mb-4 border rounded-full bg-black/5 dark:bg-white/5 ${colors.border}`}>
@@ -93,7 +93,7 @@ export default function BookingLayout({
               
               {/* Live Itinerary Summary Widget */}
               {step < 4 && (
-                <div className={`p-4 text-xs rounded-none border shadow-sm bg-black/[0.02] dark:bg-white/[0.02] ${colors.border}`}>
+                <div className={`p-4 text-xs rounded-none border shadow-sm bg-black/0.02 dark:bg-white/0.02 ${colors.border}`}>
                   <div className={`text-[9px] font-sans tracking-[0.15em] uppercase font-bold mb-2 ${colors.muted}`}>Live Itinerary</div>
                   <div className="grid grid-cols-2 gap-4">
                     <p><span className={`${colors.muted} opacity-80 block text-[10px] uppercase tracking-wider`}>Sanctuary:</span> <span className="font-semibold block mt-0.5">{form.room || "Select a room"}</span></p>
@@ -104,7 +104,7 @@ export default function BookingLayout({
 
               {/* Step 4 Checkout Confirmation Bill Block */}
               {step === 4 && (
-                <div className={`p-4 text-xs space-y-2.5 font-sans border shadow-sm bg-black/[0.02] dark:bg-white/[0.02] ${colors.border}`}>
+                <div className={`p-4 text-xs space-y-2.5 font-sans border shadow-sm bg-black/0.02 dark:bg-white/0.02 ${colors.border}`}>
                   <div className="flex justify-between items-center"><span className={colors.muted}>Selected Retreat:</span> <span className="font-bold">{form.room}</span></div>
                   <div className="flex justify-between items-center"><span className={colors.muted}>Total Travelers:</span> <span className="font-bold">{form.guests} Guest{form.guests !== 1 ? "s" : ""}</span></div>
                   <div className="flex justify-between items-center"><span className={colors.muted}>Dates Confirmed:</span> <span className="font-bold">{checkIn || "—"} — {checkOut || "—"}</span></div>
@@ -122,7 +122,7 @@ export default function BookingLayout({
 
               {/* Active Night Stay Pill Badge Alert */}
               {step === 1 && nights > 0 && (
-                <div className={`p-3.5 flex items-center gap-2.5 border bg-black/[0.01] dark:bg-white/[0.01] ${colors.border}`}>
+                <div className={`p-3.5 flex items-center gap-2.5 border bg-black/0.01 dark:bg-white/0.01 ${colors.border}`}>
                   <span className={`w-1.5 h-1.5 rounded-full bg-current opacity-60`} />
                   <p className="text-xs font-sans tracking-wide">
                     Configuring a beautiful <strong className="font-bold">{nights}-night</strong> stay at the resort.
