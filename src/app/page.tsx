@@ -30,7 +30,18 @@ export default function Home() {
     formatDisplayDate,
   } = useHomeBookingFlow();
 
-  const { isOpen, success, checkIn, checkOut, nights, setCheckIn, setCheckOut, openBooking } = booking;
+  // Clean, safe context state destructuring
+  const { 
+    isOpen, 
+    success, 
+    checkIn, 
+    checkOut, 
+    nights, 
+    openBooking,
+    calendarDays,
+    priceSummary,
+    isRoomOccupied
+  } = booking; 
   
   const [shouldRenderModal, setShouldRenderModal] = useState(isOpen);
   const [animateIn, setAnimateIn] = useState(false);
@@ -42,7 +53,7 @@ export default function Home() {
       return () => clearTimeout(timer);
     } else {
       setAnimateIn(false);
-      const timer = setTimeout(() => setShouldRenderModal(false), 450);
+      const timer = setTimeout(() => setShouldRenderModal(false), 300);
       return () => clearTimeout(timer);
     }
   }, [isOpen]);
@@ -57,15 +68,44 @@ export default function Home() {
     </Button>
   );
 
+  // Structural mapping match expected by BookingLayout
+// Structural mapping match expected by BookingLayout
+  const hookDataForLayout = {
+    isOpen,
+    success,
+    step,
+    // Merge the states so your wizard template can read current values
+    form: { ...booking.form, ...form }, 
+    checkIn,
+    checkOut,
+    nights,
+    calendarDays,
+    priceSummary,
+    isRoomOccupied,
+    onFormChange: (name: string, value: any) => {
+      // 1. Update your homepage's tracking state
+      handleFormChange(name, value);
+      
+      // 2. Direct the input change into useBooking's internal calculations engine
+      booking.onFormChange(name, value);
+    },
+    onNext: () => setStep((s) => Math.min(s + 1, 4)),
+    onBack: () => setStep((s) => Math.max(s - 1, 1)),
+    openBooking,
+    closeBooking: handleModalClose,
+    onSubmit: () => {
+      const dummyEvent = { preventDefault: () => {} } as React.FormEvent;
+      handleFormSubmit(dummyEvent);
+    },
+  };
+
   return (
     <>
-      {/* 1. MAIN HOMEPAGE DISPLAY TRACK */}
-      {/* This wrapper can safely blur and scale now because the fixed elements live outside it! */}
-      <div className={`transition-all duration-700 ease-in-out ${isOpen ? "opacity-40 pointer-events-none filter blur-sm scale-[0.985]" : "opacity-100 scale-100"}`}>
+      {/* 1. MAIN HOMEPAGE DISPLAY TRACK (Optimized Composite Animation Layer) */}
+      <div className={`transition-opacity duration-300 ease-out will-change-opacity ${isOpen ? "opacity-25 pointer-events-none" : "opacity-100"}`}>
         <HomepageLayout 
           className={`${colors.contentBg} ${colors.text} ${colors.selectionBg} ${colors.selectionText}`}
           navAction={navAction}
-          /* REMOVED bookingBarSlot from here so it doesn't get trapped by the blur scale transforms */
         >
           {/* HERO SECTION */}
           <section className={`relative flex h-screen w-full items-center justify-center overflow-hidden ${colors.bg} ${colors.textLight}`}>
@@ -152,7 +192,6 @@ export default function Home() {
       </div>
 
       {/* 2. FIXED LAYOUT STICKY BOTTOM RESERVATION BAR */}
-      {/* MOVED HERE: Sits outside the animation wrapper to break out of the transform context */}
       <StickyBookingBar 
         checkIn={checkIn}
         checkOut={checkOut}
@@ -161,39 +200,26 @@ export default function Home() {
         formattedCheckOut={formatDisplayDate(checkOut)}
         checkInRef={checkInInputRef}
         checkOutRef={checkOutInputRef}
-        onCheckInChange={(e) => setCheckIn(e.target.value)}
-        onCheckOutChange={(e) => setCheckOut(e.target.value)}
+        onCheckInChange={(e) => handleFormChange("checkIn", e.target.value)}
+        onCheckOutChange={(e) => handleFormChange("checkOut", e.target.value)}
         onReserveClick={() => { setStep(1); openBooking(); }}
       />
 
-      {/* 3. THE MOVEMENT OVERLAY BACKDROP MODAL */}
+      {/* 3. PERFORMANCE-OPTIMIZED MODAL OVERLAY BACKDROP */}
       {shouldRenderModal && (
         <div 
           onClick={handleModalClose}
-          className={`fixed inset-0 z-100 flex items-center justify-center p-4 md:p-6 overflow-x-hidden overflow-y-auto bg-black/50 backdrop-blur-md transition-opacity duration-300 ease-in-out ${
+          className={`fixed inset-0 z-100 flex items-center justify-center p-4 md:p-6 overflow-x-hidden overflow-y-auto bg-zinc-950/70 transition-opacity duration-200 ease-in-out ${
             animateIn ? "opacity-100" : "opacity-0"
           }`}
         >
           <div 
             onClick={(e) => e.stopPropagation()} 
-            className={`w-full max-w-xl transform transition-all duration-300 ease-out transform-gpu ${
+            className={`w-full max-w-7xl transform transition-all duration-300 ease-out transform-gpu ${
               animateIn ? "translate-y-0 scale-100 opacity-100" : "translate-y-4 scale-[0.98] opacity-0"
             }`}
           >
-            <BookingLayout
-              isOpen={isOpen}
-              success={success}
-              step={step}
-              form={form}
-              nights={nights}
-              checkIn={checkIn}
-              checkOut={checkOut}
-              onClose={handleModalClose}
-              onNext={() => setStep((s) => Math.min(s + 1, 4))}
-              onBack={() => setStep((s) => Math.max(s - 1, 1))}
-              onSubmit={handleFormSubmit}
-              onFormChange={handleFormChange}
-            />
+            <BookingLayout hookData={hookDataForLayout as any} />
           </div>
         </div>
       )}

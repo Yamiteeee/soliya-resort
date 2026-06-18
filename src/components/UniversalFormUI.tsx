@@ -1,19 +1,17 @@
 "use client";
 
-import React, { useMemo } from "react";
-import Logo from "@/components/Logo";
-import { useTheme } from "@/hooks/useThemeprovider";
+import React from "react";
 import { FormFieldSchema } from "@/types";
-import { SANCTUARY_ROOM_STATUS } from "@/provider/Mockdata";
 
 interface UniversalFormUIProps {
   schema: FormFieldSchema[];
   values: Record<string, any>;
   onChange: (fieldName: string, value: any) => void;
+  isRoomOccupiedFn: (roomName: string) => boolean;
   className?: string;
 }
 
-// 1. ISOLATED PERFORMANCE MEMO FIELD COMPONENT
+// 1. PERFORMANCE MEMO FIELD COMPONENT
 const FormFieldItem = React.memo(({
   field,
   index,
@@ -34,16 +32,12 @@ const FormFieldItem = React.memo(({
   return (
     <div 
       className="space-y-1.5 flex flex-col text-left will-change-transform"
-      style={{ 
-        animation: `fadeIn 0.3s ease-out ${index * 40}ms both`
-      }}
+      style={{ animation: `fadeIn 0.3s ease-out ${index * 40}ms both` }}
     >
-      {/* Elegant Upper Label Marks */}
       <label className="block text-[10px] font-sans font-bold uppercase tracking-[0.18em] text-zinc-500">
         {field.label} {field.required && <span className="text-emerald-800 ml-0.5">*</span>}
       </label>
 
-      {/* RENDER TEXTAREA */}
       {field.type === "textarea" && (
         <textarea
           rows={3}
@@ -55,7 +49,6 @@ const FormFieldItem = React.memo(({
         />
       )}
 
-      {/* RENDER SELECT DROPDOWN */}
       {field.type === "select" && (
         <div className="relative w-full group">
           <select
@@ -82,7 +75,7 @@ const FormFieldItem = React.memo(({
                     occupied ? "text-zinc-300 line-through bg-zinc-50" : "text-zinc-900 font-medium"
                   }`}
                 >
-                  {opt} {occupied ? "— (Fully Booked)" : ""}
+                  {opt} {occupied ? "— Fully Booked" : ""}
                 </option>
               );
             })}
@@ -101,14 +94,11 @@ const FormFieldItem = React.memo(({
         </div>
       )}
 
-      {/* RENDER STANDARD INPUT FIELDS */}
       {field.type !== "textarea" && field.type !== "select" && (
         <div className="relative w-full">
           <input
             type={field.type}
-            className={`${baseInputClass} ${
-              field.type === "date" ? "cursor-pointer [color-scheme:light]" : ""
-            }`}
+            className={`${baseInputClass} ${field.type === "date" ? "cursor-pointer [color-scheme:light]" : ""}`}
             placeholder={field.placeholder}
             value={value}
             min={field.min}
@@ -124,77 +114,27 @@ const FormFieldItem = React.memo(({
     </div>
   );
 }, (prevProps, nextProps) => {
-  // Ultra strict rendering guard rule: Only update if value changes or structural schemas shift
-  return (
-    prevProps.value === nextProps.value && 
-    prevProps.isOccupied === nextProps.isOccupied &&
-    prevProps.field === nextProps.field
-  );
+  return prevProps.value === nextProps.value && prevProps.isOccupied === nextProps.isOccupied && prevProps.field === nextProps.field;
 });
 
 FormFieldItem.displayName = "FormFieldItem";
 
-// 2. MAIN CONTAINER
+// 2. MAIN CONTAINER COMPONENT (Pure Form Elements Render Only)
 export default function UniversalFormUI({
   schema,
   values,
   onChange,
-  className = "space-y-6"
+  isRoomOccupiedFn,
+  className = ""
 }: UniversalFormUIProps) {
-  const { colors } = useTheme();
   
   const baseInputClass = "w-full px-0 py-3 bg-transparent text-zinc-900 font-sans placeholder:text-zinc-400 focus:outline-none transition-all duration-300 text-sm tracking-wide border-b border-zinc-200 focus:border-zinc-800 focus:pl-1";
 
-  // Cache rooms map instantly to avoid O(N) lookup array filtering cycles inside loop rendering passes
-  const occupiedRoomsMap = useMemo(() => {
-    const map: Record<string, boolean> = {};
-    SANCTUARY_ROOM_STATUS.forEach(room => {
-      map[room.name.toLowerCase()] = room.status === "Occupied";
-    });
-    return map;
-  }, []);
-
-  // O(1) Instant Lookup Handler function passed down
-  const isRoomOccupied = React.useCallback((roomName: string) => {
-    return !!occupiedRoomsMap[roomName.toLowerCase()];
-  }, [occupiedRoomsMap]);
-
   return (
-    <div className={`bg-white text-zinc-900 p-6 md:p-8 rounded-sm shadow-xl border border-zinc-100 ${className}`}>
-      
-      {/* BRAND EMBELLISHMENT */}
-      <div className="flex flex-col items-start pb-4 border-b border-zinc-100 mb-5">
-        <Logo variant="dark" className="scale-90 -ml-2" />
-        <p className="text-[11px] font-sans tracking-widest text-zinc-400 uppercase mt-2">
-          Sanctuary Reservation Form
-        </p>
-      </div>
-
-      {/* Live Room Status Ribbon Bar */}
-      <div className="mb-6 bg-zinc-50/50 rounded-sm p-3.5 border border-zinc-100 text-left">
-        <span className="block text-[9px] font-sans font-bold uppercase tracking-[0.2em] text-zinc-400 mb-2">
-          Live Sanctuary Availability
-        </span>
-        <div className="flex flex-wrap gap-2">
-          {SANCTUARY_ROOM_STATUS.map((room) => (
-            <div 
-              key={room.id} 
-              className={`flex items-center gap-2 text-[10px] px-2.5 py-1 rounded-full border font-sans font-medium tracking-wide ${room.color}`}
-            >
-              <span className={`h-1.5 w-1.5 rounded-full ${
-                room.status === "Available" ? "bg-emerald-600 opacity-90 animate-pulse" : "bg-amber-600"
-              }`} />
-              <span>{room.name}:</span>
-              <span className="font-bold lowercase opacity-90">{room.status}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Render optimized nodes mapping frame loop */}
+    <div className={`w-full space-y-5 ${className}`}>
       {schema.map((field, index) => {
         const fieldValue = values[field.name] ?? "";
-        const isCurrentSelectionOccupied = field.type === "select" && isRoomOccupied(fieldValue);
+        const isCurrentSelectionOccupied = field.type === "select" && isRoomOccupiedFn(fieldValue);
 
         return (
           <FormFieldItem
@@ -203,7 +143,7 @@ export default function UniversalFormUI({
             index={index}
             value={fieldValue}
             isOccupied={isCurrentSelectionOccupied}
-            isRoomOccupiedFn={isRoomOccupied}
+            isRoomOccupiedFn={isRoomOccupiedFn}
             onChange={onChange}
             baseInputClass={baseInputClass}
           />

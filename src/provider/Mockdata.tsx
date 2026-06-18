@@ -9,12 +9,19 @@ export interface SanctuaryRoomStatus {
 }
 
 // PREMIUM LIVE STATUS OBJECT DATA - CENTRALIZED
-export const SANCTUARY_ROOM_STATUS: SanctuaryRoomStatus[] = [
-  { id: 1, name: "Cloud 9 Ocean Suite", status: "Occupied", color: "bg-amber-500/20 text-amber-800 border-amber-600/20" },
-  { id: 2, name: "The Canopy Loft", status: "Available", color: "bg-emerald-50 text-emerald-800 border-emerald-600/20" },
-  { id: 3, name: "Soliya Eco Villa", status: "Occupied", color: "bg-amber-500/20 text-amber-800 border-amber-600/20" },
-];
+export interface SanctuaryRoomStatus {
+  id: number;
+  name: string;
+  status: "Occupied" | "Available";
+  color: string;
+  pricePerNight: number;
+}
 
+export const SANCTUARY_ROOM_STATUS: SanctuaryRoomStatus[] = [
+  { id: 1, name: "Cloud 9 Ocean Suite", status: "Occupied", color: "bg-amber-500/20 text-amber-800 border-amber-600/20", pricePerNight: 550 },
+  { id: 2, name: "The Canopy Loft", status: "Available", color: "bg-emerald-50 text-emerald-800 border-emerald-600/20", pricePerNight: 420 },
+  { id: 3, name: "Soliya Eco Villa", status: "Occupied", color: "bg-amber-500/20 text-amber-800 border-amber-600/20", pricePerNight: 780 },
+];
 export const INITIAL_FORM_STATE: BookingFormState = {
   room: "Cloud 9 Ocean Suite",
   name: "",
@@ -72,6 +79,8 @@ export const STEP_4_SCHEMA: FormFieldSchema[] = [
   { name: "message", label: "Special Requests or Notes", type: "textarea", placeholder: "Dietary requirements, surf guide configurations, airport transfers..." },
 ];
 
+
+
 /**
  * Returns the matching form fields dynamic map depending on the current active step index
  */
@@ -83,4 +92,6 @@ export function getSchemaForStep(step: number): FormFieldSchema[] {
     case 4: return STEP_4_SCHEMA;
     default: return STEP_1_SCHEMA;
   }
+
+  
 }
