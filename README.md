@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Markdown
+#  Soliya Sanctuary | Siargao Island Resort
 
-## Getting Started
+A premium, high-performance web experience for **Soliya Sanctuary**, a luxury boutique resort nestled in Siargao Island, Philippines. Built with modern web architecture to provide a seamless, content-rich interactive preview of the resort experience, accommodations, wellness activities, and local island adventures.
 
-First, run the development server:
+ **Live Production Deployment:** [soliya-resort.vercel.app](https://soliya-resort.vercel.app)
+
+---
+
+##  Features
+
+* **Responsive Hybrid Design:** Pixel-perfect layouts optimized seamlessly for mobile, standard tablets (iPads), large tablets, and high-resolution desktop viewports.
+* **Sticky Dynamic Booking Bar:** A smooth client-side interaction system to facilitate real-time engagement and reservations.
+* **Bespoke Typography & Aesthetics:** Immersive combination of editorial serif headers and clean, scannable modern sans-serif typography mirroring the sanctuary's physical atmosphere.
+* **Performance First:** Built using Next.js App Router for optimal Server-Side Rendering (SSR) metrics, instant asset delivery, and layout stability.
+
+---
+
+##  Tech Stack
+
+* **Framework:** [Next.js 15+](https://nextjs.org/) (App Router Architecture)
+* **Styling:** [Tailwind CSS](https://tailwindcss.com/) (Utility-first framework with customized responsive breakpoints)
+* **Language:** [TypeScript](https://www.typescriptlang.org/) (Strict static typing for robust state and prop management)
+* **Deployment & Hosting:** [Vercel](https://vercel.com/) (Edge networks, optimized caching headers, and automatic CI/CD)
+
+---
+
+##  Getting Started
+
+### Prerequisites
+
+Ensure you have [Node.js](https://nodejs.org/) (v18.0 or higher) installed on your local environment.
+
+### 1. Clone the Repository
 
 ```bash
+git clone [https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME.git](https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME.git)
+cd YOUR_REPO_NAME
+2. Install Dependencies
+Using your preferred package manager:
+
+Bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+3. Spin Up Local Development Server
+Bash
 npm run dev
 # or
 yarn dev
 # or
 pnpm dev
-# or
-bun dev
+Open http://localhost:3000 with your browser to explore the local instance. Core layout logic can be modified primarily via app/page.tsx and custom global layouts within app/layout.tsx.
 ```
+Core Component Blueprint
+components/Logo.tsx — Handles multi-variant responsive light/dark rendering configurations.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+components/HomepageLayout.tsx — Master layout shell containing the custom fixed top navigation bar, micro-iframe dynamic map controls, and structural core context views.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+ Deployment
+This project uses Vercel Git Integration to automatically track the production branch. Every push to main instantly triggers a fresh build production lifecycle pipeline.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+##  Live Preview
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+You can explore the live, fully deployed instance of the resort platform here:  
+ **[soliya-resort.vercel.app](https://soliya-resort.vercel.app)**
