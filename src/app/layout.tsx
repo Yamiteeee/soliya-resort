@@ -3,6 +3,7 @@ import { Playfair_Display, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import PageLoader from "@/components/animations/pageloadAnimation";
 import { ThemeProvider } from "@/hooks/useThemeprovider";
+import { Analytics } from "@vercel/analytics/next"
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -40,6 +41,9 @@ export default function RootLayout({
         <ThemeProvider>
           {/* Global entry layout animation */}
           <PageLoader />
+          
+          {/* Vercel Web Analytics Tracking System */}
+          <Analytics />
           
           {/* Main page content layout slot */}
           {children}
