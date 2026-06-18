@@ -1,5 +1,20 @@
 import { BookingFormState, AccommodationComparison, FormFieldSchema } from "@/types";
 
+// PREMIUM LIVE STATUS CONTRACT INTERFACE
+export interface SanctuaryRoomStatus {
+  id: number;
+  name: string;
+  status: "Occupied" | "Available";
+  color: string;
+}
+
+// PREMIUM LIVE STATUS OBJECT DATA - CENTRALIZED
+export const SANCTUARY_ROOM_STATUS: SanctuaryRoomStatus[] = [
+  { id: 1, name: "Cloud 9 Ocean Suite", status: "Occupied", color: "bg-amber-500/20 text-amber-800 border-amber-600/20" },
+  { id: 2, name: "The Canopy Loft", status: "Available", color: "bg-emerald-50 text-emerald-800 border-emerald-600/20" },
+  { id: 3, name: "Soliya Eco Villa", status: "Occupied", color: "bg-amber-500/20 text-amber-800 border-amber-600/20" },
+];
+
 export const INITIAL_FORM_STATE: BookingFormState = {
   room: "Cloud 9 Ocean Suite",
   name: "",
@@ -16,7 +31,7 @@ export const ACCOMMODATION_DATA: AccommodationComparison[] = [
     bestFor: "Honeymoons & Avid Surfers",
   },
   {
-    title: "Canopy Loft",
+    title: "The Canopy Loft",
     features: "Elevated among coconut trees, floor-to-ceiling glass paneling, open skylight, standalone tub.",
     bestFor: "Creative Solitude & Digital Nomads",
   },
@@ -40,7 +55,8 @@ export const STEP_2_SCHEMA: FormFieldSchema[] = [
     name: "room", 
     label: "Select Suite or Villa", 
     type: "select", 
-    options: ["Cloud 9 Ocean Suite", "Canopy Loft", "Soliya Eco Villa"],
+    /* FIXED: Adjusted string values to match room status mapping properties exactly */
+    options: ["Cloud 9 Ocean Suite", "The Canopy Loft", "Soliya Eco Villa"],
     required: true 
   },
   { name: "guests", label: "Total Guests", type: "number", min: 1, max: 10, required: true },

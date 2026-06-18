@@ -17,11 +17,9 @@ export default function HomepageLayout({
   className = "",
 }: HomepageLayoutProps) {
   return (
-    // Added relative and isolated stacking container context via z-0
-    <div className={`min-h-screen font-sans antialiased relative z-0 ${className}`}>
+    <div className={`min-h-screen flex flex-col font-sans antialiased relative z-0 ${className}`}>
       
       {/* 1. IMMERSIVE FIXED NAVIGATION BAR */}
-      {/* Reduced z-index to z-40 so modals (z-50 or higher) always dominate */}
       <nav className="fixed top-0 z-40 w-full backdrop-blur-md transition-all duration-300">
         <div className="mx-auto flex items-center justify-between px-6 py-4 max-w-7xl md:px-12">
           <a href="#" className="transition-opacity hover:opacity-90">
@@ -41,20 +39,12 @@ export default function HomepageLayout({
       </nav>
 
       {/* 2. CORE CONTENT STREAM */}
-      <main className="relative z-10 pb-32 md:pb-24">
+      {/* Added bottom padding so content never gets cut off behind the new taller unified bar */}
+      <main className="relative z-10 flex-1 pb-32 md:pb-40">
         {children}
       </main>
 
-      {/* 3. GLOBAL FOOTER MARKS */}
-      <footer className="px-6 py-12 md:px-12 md:pb-32">
-        <div className="mx-auto max-w-7xl flex flex-col sm:flex-row items-center justify-between gap-4 text-xs tracking-wider">
-          <p className="font-medium">© 2026 Soliya Siargao. All rights reserved.</p>
-          <p className="font-serif italic">Where the swell meets soul.</p>
-        </div>
-      </footer>
-
-      {/* 4. FIXED LAYOUT STICKY BOTTOM SLOT */}
-      {/* Lowered to z-30 so it sits below nav and modal stacks */}
+      {/* 3. FIXED LAYOUT STICKY BOTTOM SLOT */}
       <div className="relative z-30">
         {bookingBarSlot}
       </div>

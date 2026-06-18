@@ -60,24 +60,12 @@ export default function Home() {
   return (
     <>
       {/* 1. MAIN HOMEPAGE DISPLAY TRACK */}
+      {/* This wrapper can safely blur and scale now because the fixed elements live outside it! */}
       <div className={`transition-all duration-700 ease-in-out ${isOpen ? "opacity-40 pointer-events-none filter blur-sm scale-[0.985]" : "opacity-100 scale-100"}`}>
         <HomepageLayout 
           className={`${colors.contentBg} ${colors.text} ${colors.selectionBg} ${colors.selectionText}`}
           navAction={navAction}
-          bookingBarSlot={
-            <StickyBookingBar 
-              checkIn={checkIn}
-              checkOut={checkOut}
-              totalNights={nights}
-              formattedCheckIn={formatDisplayDate(checkIn)}
-              formattedCheckOut={formatDisplayDate(checkOut)}
-              checkInRef={checkInInputRef}
-              checkOutRef={checkOutInputRef}
-              onCheckInChange={(e) => setCheckIn(e.target.value)}
-              onCheckOutChange={(e) => setCheckOut(e.target.value)}
-              onReserveClick={() => { setStep(1); openBooking(); }}
-            />
-          }
+          /* REMOVED bookingBarSlot from here so it doesn't get trapped by the blur scale transforms */
         >
           {/* HERO SECTION */}
           <section className={`relative flex h-screen w-full items-center justify-center overflow-hidden ${colors.bg} ${colors.textLight}`}>
@@ -117,7 +105,7 @@ export default function Home() {
                   At Soliya, we believe that pure, high-end luxury shouldn't compromise the earth. Tucked comfortably away from the bustling tourist strips yet just a brief walk away from the island's world-class breaks, our spaces perfectly blend modern architectural geometry with traditional Filipino craftsmanship.
                 </p>
               </div>
-              <div className={`h-450px w-full overflow-hidden ${colors.surface}`}>
+              <div className={`h-[450px] w-full overflow-hidden ${colors.surface}`}>
                 <img src={soliyaImages.experience.pool} alt={soliyaImages.experience.alt} className="h-full w-full object-cover hover:scale-105 transition-transform duration-700 ease-out" />
               </div>
             </div>
@@ -163,7 +151,22 @@ export default function Home() {
         </HomepageLayout>
       </div>
 
-      {/* 2. THE MOVEMENT OVERLAY BACKDROP */}
+      {/* 2. FIXED LAYOUT STICKY BOTTOM RESERVATION BAR */}
+      {/* MOVED HERE: Sits outside the animation wrapper to break out of the transform context */}
+      <StickyBookingBar 
+        checkIn={checkIn}
+        checkOut={checkOut}
+        totalNights={nights}
+        formattedCheckIn={formatDisplayDate(checkIn)}
+        formattedCheckOut={formatDisplayDate(checkOut)}
+        checkInRef={checkInInputRef}
+        checkOutRef={checkOutInputRef}
+        onCheckInChange={(e) => setCheckIn(e.target.value)}
+        onCheckOutChange={(e) => setCheckOut(e.target.value)}
+        onReserveClick={() => { setStep(1); openBooking(); }}
+      />
+
+      {/* 3. THE MOVEMENT OVERLAY BACKDROP MODAL */}
       {shouldRenderModal && (
         <div 
           onClick={handleModalClose}

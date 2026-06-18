@@ -30,9 +30,13 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${playfair.variable} ${plusJakarta.variable} h-full scroll-smooth`}
     >
-      <body className="min-h-full antialiased bg-zinc-900 text-zinc-50 selection:bg-emerald-800 selection:text-white">
+      <body 
+        suppressHydrationWarning
+        className="min-h-full flex flex-col antialiased bg-zinc-900 text-zinc-50 selection:bg-emerald-800 selection:text-white"
+      >
         <ThemeProvider>
           {/* Global entry layout animation */}
           <PageLoader />
