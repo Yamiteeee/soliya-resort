@@ -38,87 +38,93 @@ export default function StickyBookingBar({
   const { colors } = useTheme();
 
   return (
-    <div className={`fixed bottom-0 left-0 z-40 w-full backdrop-blur-md px-6 pt-5 pb-4 shadow-2xl border-t border-white/10 ${colors.surface} ${className}`}>
+    // REDUCED VERTICAL PADDING ON MOBILE: `pt-3 pb-3` scales up to `md:pt-5 md:pb-4`
+    <div className={`fixed bottom-0 left-0 z-40 w-full backdrop-blur-md px-4 md:px-6 pt-3 pb-3 md:pt-5 md:pb-4 shadow-2xl border-t border-white/10 ${colors.surface} ${className}`}>
       <div className="mx-auto max-w-7xl">
         
-        {/* TOP LAYER: Interactive Booking Controls */}
-        <div className="flex flex-col items-center justify-between gap-5 pb-5 md:flex-row md:gap-12">
+        {/* COMPACT INTERACTIVE ROW ON MOBILE */}
+        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between md:gap-12">
           
-          {/* Date Inputs Container */}
-          <div className="grid w-full grid-cols-2 gap-6 text-left font-sans text-xs md:flex md:flex-1 md:gap-12">
+          {/* Main Controls Row: Holds Dates and CTA closely on mobile */}
+          <div className="flex flex-row items-center justify-between gap-4 md:flex-1 md:gap-12">
             
-            {/* Arrival Date Custom Input */}
-            <div 
-              onClick={() => checkInRef.current?.showPicker()} 
-              className="group flex flex-col flex-1 pb-1 cursor-pointer select-none"
-            >
-              <span className={`text-[10px] uppercase tracking-wider font-bold mb-1.5 transition-colors group-hover:${colors.accent} ${colors.muted}`}>
-                Arrival Date
-              </span>
-              <span className={`text-sm tracking-wide font-medium ${colors.text}`}>
-                {formattedCheckIn}
-              </span>
+            {/* Date Inputs Grid: Compact layout on mobile */}
+            <div className="grid grid-cols-2 gap-4 text-left font-sans text-xs flex-1 max-w-[280px] sm:max-w-md md:max-w-none">
               
-              <input 
-                ref={checkInRef}
-                type="date" 
-                min={minCheckIn}
-                value={checkIn}
-                onChange={onCheckInChange}
-                tabIndex={-1}
-                className="sr-only"
-              />
-            </div>
-
-            {/* Departure Date Custom Input */}
-            <div 
-              onClick={() => checkOutRef.current?.showPicker()} 
-              className="group flex flex-col flex-1 pb-1 cursor-pointer select-none"
-            >
-              <span className={`text-[10px] uppercase tracking-wider font-bold mb-1.5 transition-colors group-hover:${colors.accent} ${colors.muted}`}>
-                Departure Date
-              </span>
-              <span className={`text-sm tracking-wide font-medium ${colors.text}`}>
-                {formattedCheckOut}
-              </span>
-
-              <input 
-                ref={checkOutRef}
-                type="date" 
-                min={minCheckOut}
-                value={checkOut}
-                onChange={onCheckOutChange}
-                tabIndex={-1}
-                className="sr-only"
-              />
-            </div>
-          </div>
-
-          {/* Night Counter Display & Button */}
-          <div className="flex w-full flex-col sm:flex-row items-center justify-end gap-6 md:w-auto min-w-[320px]">
-            {totalNights > 0 && (
-              <div className="text-center sm:text-right font-sans whitespace-nowrap sm:pr-2">
-                <span className={`text-[10px] uppercase tracking-widest block font-bold mb-0.5 ${colors.muted}`}>
-                  Duration
+              {/* Arrival Date */}
+              <div 
+                onClick={() => checkInRef.current?.showPicker()} 
+                className="group flex flex-col cursor-pointer select-none"
+              >
+                <span className={`text-[9px] md:text-[10px] uppercase tracking-wider font-bold mb-0.5 md:mb-1.5 transition-colors group-hover:${colors.accent} ${colors.muted}`}>
+                  Arrival
                 </span>
-                <span className={`text-xs font-semibold ${colors.text}`}>
-                  {totalNights} {totalNights === 1 ? 'Night' : 'Nights'} in Paradise
+                <span className={`text-xs md:text-sm tracking-wide font-medium ${colors.text}`}>
+                  {formattedCheckIn}
                 </span>
+                <input 
+                  ref={checkInRef}
+                  type="date" 
+                  min={minCheckIn}
+                  value={checkIn}
+                  onChange={onCheckInChange}
+                  tabIndex={-1}
+                  className="sr-only"
+                />
               </div>
-            )}
-            
-            <Button 
-              variant="primary" 
-              onClick={onReserveClick}
-              className={`w-full text-xs py-3.5 px-8 shadow-md border-none md:w-auto font-bold uppercase tracking-widest transition-transform active:scale-[0.98] ${colors.btnPrimaryBg} ${colors.btnPrimaryText} ${colors.btnPrimaryHover}`}
-            >
-              Reserve Sanctuary
-            </Button>
+
+              {/* Departure Date */}
+              <div 
+                onClick={() => checkOutRef.current?.showPicker()} 
+                className="group flex flex-col cursor-pointer select-none"
+              >
+                <span className={`text-[9px] md:text-[10px] uppercase tracking-wider font-bold mb-0.5 md:mb-1.5 transition-colors group-hover:${colors.accent} ${colors.muted}`}>
+                  Departure
+                </span>
+                <span className={`text-xs md:text-sm tracking-wide font-medium ${colors.text}`}>
+                  {formattedCheckOut}
+                </span>
+                <input 
+                  ref={checkOutRef}
+                  type="date" 
+                  min={minCheckOut}
+                  value={checkOut}
+                  onChange={onCheckOutChange}
+                  tabIndex={-1}
+                  className="sr-only"
+                />
+              </div>
+            </div>
+
+            {/* CTA Button: Placed inline on mobile right next to dates */}
+            <div className="flex-shrink-0">
+              <Button 
+                variant="primary" 
+                onClick={onReserveClick}
+                className={`text-[10px] md:text-xs py-2.5 px-4 md:py-3.5 md:px-8 shadow-md border-none font-bold uppercase tracking-widest transition-transform active:scale-[0.98] w-auto ${colors.btnPrimaryBg} ${colors.btnPrimaryText} ${colors.btnPrimaryHover}`}
+              >
+                Reserve
+              </Button>
+            </div>
+
           </div>
+
+          {/* Night Counter Display: Condensed position for larger screens */}
+          {totalNights > 0 && (
+            <div className="hidden sm:block md:text-right font-sans whitespace-nowrap md:pr-2 md:order-none">
+              <span className={`text-[10px] uppercase tracking-widest block font-bold mb-0.5 ${colors.muted}`}>
+                Duration
+              </span>
+              <span className={`text-xs font-semibold ${colors.text}`}>
+                {totalNights} {totalNights === 1 ? 'Night' : 'Nights'}
+              </span>
+            </div>
+          )}
+          
         </div>
 
-        {/* BOTTOM LAYER: Visible, Highly Professional Integrated Copyright Line */}
-        <div className="mt-1 pt-3 border-t border-zinc-700/30 flex flex-col sm:flex-row items-center justify-between gap-2 text-[10px] tracking-[0.15em] uppercase font-sans">
+        {/* BOTTOM LAYER: HIDDEN ON MOBILE (`hidden md:flex`) to save height space */}
+        <div className="hidden md:flex mt-1 pt-3 border-t border-zinc-700/30 flex-col sm:flex-row items-center justify-between gap-2 text-[10px] tracking-[0.15em] uppercase font-sans">
           <p className="text-zinc-400 font-medium">
             © 2026 Soliya Siargao. All rights reserved.
           </p>
