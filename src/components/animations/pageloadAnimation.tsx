@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, Variants } from "framer-motion";
 import { useEffect, useState } from "react";
 
 export default function PageLoader() {
@@ -15,6 +15,23 @@ export default function PageLoader() {
     return () => clearTimeout(timer);
   }, []);
 
+  // FIXED: Explicitly typed function using Framer Motion's custom 'Variants' definition
+  const getDropVariants = (delay: number, xOffset: number): Variants => ({
+    initial: { opacity: 0, y: 10, x: xOffset, scale: 0.4 },
+    animate: { 
+      opacity: [0, 1, 1, 0],
+      y: [-2, -22, -12], 
+      scale: [0.4, 1, 0.8, 0],
+      transition: { 
+        duration: 1.2, 
+        delay: delay, 
+        ease: "linear", // Swapped to canonical string literal
+        repeat: Infinity,
+        repeatDelay: 0.4
+      }
+    }
+  });
+
   return (
     <AnimatePresence>
       {isVisible && (
@@ -24,10 +41,9 @@ export default function PageLoader() {
             y: "-100%",
             transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] } 
           }}
-        
           className="fixed inset-0 z-9999 flex flex-col items-center justify-center bg-stone-950 text-stone-100"
         >
-          <div className="flex flex-col items-center max-w-xs text-center px-6">
+          <div className="flex flex-col items-center max-w-xs text-center px-6 relative">
             
             {/* 1. Animated Vector Emblem */}
             <motion.svg
@@ -74,15 +90,47 @@ export default function PageLoader() {
               </motion.p>
             </div>
 
-            {/* 3. Minimal Progress Line Accent */}
-            {/* FIXED: Swapped out h-[1px] for the canonical h-px core utility */}
-            <div className="w-24 h-px bg-stone-800 mt-8 relative overflow-hidden">
-              <motion.div 
-                initial={{ left: "-100%" }}
-                animate={{ left: "100%" }}
-                transition={{ duration: 1.8, ease: "easeInOut", repeat: 0 }}
-                className="absolute top-0 bottom-0 left-0 w-1/2 bg-emerald-500"
+            {/* 3. Fluid Wave Signature & Dynamic Splash */}
+            <div className="w-32 h-12 mt-6 relative flex flex-col items-center justify-center overflow-visible">
+              
+              {/* Splashing Vector Droplets */}
+              <motion.span 
+                variants={getDropVariants(1.1, -15)} initial="initial" animate="animate"
+                className="absolute left-1/2 w-1.5 h-1.5 rounded-full bg-emerald-400/80" 
               />
+              <motion.span 
+                variants={getDropVariants(0.9, 0)} initial="initial" animate="animate"
+                className="absolute left-1/2 w-1 h-2 rounded-full bg-emerald-400" 
+              />
+              <motion.span 
+                variants={getDropVariants(1.3, 12)} initial="initial" animate="animate"
+                className="absolute left-1/2 w-1.5 h-1.5 rounded-full bg-emerald-500/60" 
+              />
+
+              {/* Minimalist Cresting Wave Path */}
+              <svg 
+                className="w-full h-6 text-stone-800" 
+                viewBox="0 0 120 24" 
+                fill="none" 
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <motion.path
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={{ pathLength: 1, opacity: 1 }}
+                  transition={{ duration: 1.6, delay: 0.2, ease: "easeInOut" }}
+                  d="M0 16C15 16 20 8 35 8C50 8 55 20 70 20C85 20 90 4 105 4C115 4 118 10 120 12"
+                  stroke="url(#waveGradient)"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                />
+                <defs>
+                  <linearGradient id="waveGradient" x1="0" y1="0" x2="120" y2="0" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stopColor="#292524" />
+                    <stop offset="50%" stopColor="#10b981" />
+                    <stop offset="100%" stopColor="#047857" />
+                  </linearGradient>
+                </defs>
+              </svg>
             </div>
 
           </div>
