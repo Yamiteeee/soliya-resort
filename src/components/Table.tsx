@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { useTheme } from '@/hooks/useThemeprovider';
+import { useTheme } from "@/hooks/useThemeprovider";
 
 interface TableRowData {
   title: string;
@@ -12,47 +12,47 @@ interface TableRowData {
 interface TableProps {
   headers: string[];
   data: TableRowData[];
+  className?: string;
 }
 
-export default function Table({ headers, data }: TableProps) {
+export default function Table({ headers, data, className = '' }: TableProps) {
   const { colors } = useTheme();
 
   return (
-    // Removed the heavy outside border frame to let the layout breathe naturally
-    <div className="w-full overflow-x-auto selection:bg-zinc-800 selection:text-white">
+    <div className={`w-full overflow-x-auto ${colors.selectionBg || "selection:bg-zinc-800"} ${colors.selectionText || "selection:text-zinc-100"} ${className}`}>
       <table className={`w-full min-w-[700px] border-collapse text-left text-sm ${colors.text}`}>
         
-        {/* Luxury Thead: Swapped to fine borders, lowercase italic font-serif or tracking-widest uppercase sans */}
-        <thead className={`border-b border-zinc-300/80 text-[11px] uppercase tracking-[0.25em] ${colors.muted} font-semibold`}>
+        {/* Header Block Using Clean Spacing (Borders Removed) */}
+        <thead className={`text-[11px] uppercase tracking-[0.25em] font-bold ${colors.muted}`}>
           <tr>
             {headers.map((header, idx) => (
-              <th key={idx} className="px-6 py-5 font-medium">
+              <th key={idx} className="px-6 py-4 font-medium">
                 {header}
               </th>
             ))}
           </tr>
         </thead>
         
-        {/* Luxury Tbody: Generous vertical padding, ultra-faint borders, and a soft backdrop hover tint */}
-        <tbody className="divide-y divide-zinc-200/60 font-sans text-[13px] md:text-sm">
+        {/* Content Stream (Dividers and Custom Tones Removed) */}
+        <tbody className="font-sans text-[13px] md:text-sm">
           {data.map((row, rowIdx) => (
             <tr 
               key={rowIdx} 
-              className="group transition-all duration-300 ease-out hover:bg-zinc-100/50"
+              className={`group transition-all duration-300 ease-out hover:${colors.surface}`}
             >
-              {/* Row Title: Luxurious Serif Font swap to match room titles */}
-              <td className="px-6 py-7 font-serif text-base font-medium tracking-wide text-zinc-900 group-hover:text-emerald-800 transition-colors">
+              {/* Sanctuary Title Column */}
+              <td className={`px-6 py-6 font-serif text-base font-normal tracking-wide transition-colors group-hover:${colors.accent}`}>
                 {row.title}
               </td>
               
-              {/* Features: Crisp alignment and optimal line-height spacing for luxury reading */}
-              <td className={`px-6 py-7 max-w-sm leading-relaxed text-zinc-600 font-light`}>
+              {/* Core Features Column */}
+              <td className={`px-6 py-6 max-w-sm leading-relaxed font-light ${colors.muted}`}>
                 {row.features}
               </td>
               
-              {/* Best For: Styled cleanly without cliché italics, giving it an editorial editorial look */}
-              <td className="px-6 py-7 font-sans text-xs uppercase tracking-wider text-zinc-500 font-medium">
-                <span className="inline-block border border-zinc-200 bg-white px-3 py-1 rounded-sm shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
+              {/* Target Tag Column (Explicit Border & Shadow Scrubbed) */}
+              <td className={`px-6 py-6 font-sans text-xs uppercase tracking-wider font-medium ${colors.muted}`}>
+                <span className={`inline-block px-3 py-1 ${colors.surface}`}>
                   {row.bestFor}
                 </span>
               </td>

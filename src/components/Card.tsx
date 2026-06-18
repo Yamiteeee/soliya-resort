@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { useTheme } from '@/hooks/useThemeprovider';
+import { useTheme } from "@/hooks/useThemeprovider";
 
 interface CardProps {
   imageSrc: string;
@@ -9,14 +9,23 @@ interface CardProps {
   title: string;
   description: string;
   tag?: string;
+  className?: string; // Gives the parent structural control
 }
 
-export default function Card({ imageSrc, altText, title, description, tag }: CardProps) {
+export default function Card({ 
+  imageSrc, 
+  altText, 
+  title, 
+  description, 
+  tag,
+  className = '' 
+}: CardProps) {
   const { colors } = useTheme();
 
   return (
-    <div className={`group overflow-hidden border transition-all duration-300 hover:shadow-md ${colors.border} ${colors.surface}`}>
-      <div className={`relative h-64 w-full overflow-hidden ${colors.bg}`}>
+    <div className={`group overflow-hidden transition-all duration-300 hover:shadow-md ${colors.surface} ${className}`}>
+      {/* Image Frame Wrapper */}
+      <div className="relative h-64 w-full overflow-hidden bg-zinc-100">
         <img 
           src={imageSrc} 
           alt={altText} 
@@ -24,13 +33,15 @@ export default function Card({ imageSrc, altText, title, description, tag }: Car
           loading="lazy"
         />
         {tag && (
-          <span className={`absolute top-4 left-4 text-[10px] uppercase tracking-widest px-3 py-1 font-medium ${colors.tagBg} ${colors.tagText}`}>
+          <span className={`absolute top-4 left-4 text-[10px] uppercase tracking-widest px-3 py-1 font-bold ${colors.tagBg} ${colors.tagText}`}>
             {tag}
           </span>
         )}
       </div>
+
+      {/* Content Meta Frame */}
       <div className="p-6">
-        <h3 className={`font-serif text-xl font-medium mb-2 ${colors.text}`}>{title}</h3>
+        <h3 className={`font-serif text-xl font-normal mb-2 ${colors.text}`}>{title}</h3>
         <p className={`text-sm leading-relaxed font-sans ${colors.muted}`}>{description}</p>
       </div>
     </div>

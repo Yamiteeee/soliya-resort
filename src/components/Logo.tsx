@@ -1,21 +1,19 @@
 "use client";
 
 import React from 'react';
-import { useTheme } from '@/hooks/useThemeprovider';
 
 interface LogoProps {
   className?: string;
   variant?: "light" | "dark";
 }
 
-export default function Logo({ className = '', variant }: LogoProps) {
-  const { colors } = useTheme();
-
-  // Determine colors cleanly based on explicit variant override or general theme
-  const isDarkBg = variant === "dark";
-  const svgColor = isDarkBg ? "text-zinc-100" : colors.text;
-  const wordmarkColor = isDarkBg ? "text-zinc-100" : colors.text;
-  const subtextColor = isDarkBg ? "text-zinc-400" : colors.muted;
+export default function Logo({ className = '', variant = "dark" }: LogoProps) {
+  // Determine standard colors strictly from the explicit presentation variant prop
+  const isDark = variant === "dark";
+  
+  const svgColor = isDark ? "text-[#1c1611]" : "text-zinc-100";
+  const wordmarkColor = isDark ? "text-[#1c1611]" : "text-zinc-100";
+  const subtextColor = isDark ? "text-[#705e52]" : "text-zinc-400";
 
   return (
     <div className={`flex items-center gap-3 select-none ${className}`}>
